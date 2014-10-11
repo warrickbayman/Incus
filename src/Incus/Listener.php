@@ -77,8 +77,13 @@ class Listener implements Contracts\ListenerInterface
                 $newEvent = new \stdClass();
 
                 $newEvent->raw = $mandrillEvent;
-                $newEvent->occuredAt = Carbon::createFromTimestamp($newEvent->raw->ts);
-                $newEvent->messageId = $newEvent->raw->_id;
+
+                $newEvent->at = Carbon::createFromTimestamp($newEvent->raw->ts);
+
+                $newEvent->indexed = false;
+                if (property_exists($newEvent->raw, 'msg') && is_object($newEvent->raw)) {
+                    $newEvent->indexed = true;
+                }
 
                 /*if (property_exists($newEvent->raw, 'msg')) {
                     $newEvent->message->eventId = 10;

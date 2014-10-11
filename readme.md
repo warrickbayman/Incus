@@ -79,5 +79,35 @@ $listener
 	->reject()
 ```
 
-Event handler receives an object of type `StdClass` which, currently, contains a single parameter `raw`. The `raw` parameter is the event object as it was received from Mandrill. Note that no data is altered or processed. Future versions of Incus will process this data in meaningful and useful ways.
+Event handler receives an object of type `StdClass` which, will eventually provide a number of useful tools. This object is where all the Incus magic happens.
 
+### ->at
+The `at` property is the time when the event was fired as a `Carbon` instance, so you have all the Carbon functionality on it.
+
+```
+$listener->send(function($event)
+{
+	echo $event->at->format('d F Y');
+});
+```
+
+### ->indexed
+Whether or not the message has been indexed. The property will always return false if the `->raw->msg` property is empty, or doesn't exist. Mandrill messages may not be indexed if an event occures soon after the message is delivered.
+
+```
+	if ($event->indexed) {
+		echo 'Message has been indexed'
+	}
+```
+
+### ->raw
+The `raw` property will return the Mandrill event object as it was received from the webhook. Nothing return by this property is altered or processed.
+
+```
+$listener->click(function($event)
+{
+	if ($event->raw->user_agent_parsed->mobile) {
+		echo 'User agent is mobile!';
+	}
+});
+```

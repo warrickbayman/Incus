@@ -14,7 +14,33 @@ use Incus\Listener;
 class ListenerTest extends TestCase
 {
     /** @test */
-    public function it_can_receive_a_mandrill_webhook()
+    public function it_returns_a_carbon_instance()
+    {
+        Incus::listen(function(Listener $listener)
+        {
+            $listener->send(function($event)
+            {
+                $this->assertInstanceOf('Carbon\Carbon', $event->at);
+            });
+        });
+    }
+
+
+    /** @test */
+    public function it_can_check_if_a_message_has_been_indexed()
+    {
+        Incus::listen(function(Listener $listener)
+        {
+            $listener->send(function($event)
+            {
+                $this->assertTrue($event->indexed);
+            });
+        });
+    }
+
+
+    /** @test */
+    public function it_can_fire_an_event_handler()
     {
         Incus::listen(function(Listener $listener)
         {
@@ -23,55 +49,55 @@ class ListenerTest extends TestCase
                 {
                     $this->assertInstanceOf('StdClass', $event);
                     $this->assertObjectHasAttribute('raw', $event);
-                    echo 'SEND at ' . \Carbon\Carbon::createFromTimestamp($event->raw->ts)->format('l d F Y') . "\n";
+                    echo 'SEND at ' . $event->at . "\n";
                 })
                 ->click(function($event)
                 {
                     $this->assertInstanceOf('StdClass', $event);
                     $this->assertObjectHasAttribute('raw', $event);
-                    echo 'CLICK at ' . \Carbon\Carbon::createFromTimestamp($event->raw->ts)->format('l d F Y') . ' from ' . $event->raw->ip . "\n";
+                    echo 'CLICK at ' . $event->at . ' from ' . $event->raw->ip . "\n";
                 })
                 ->deferral(function($event)
                 {
                     $this->assertInstanceOf('StdClass', $event);
                     $this->assertObjectHasAttribute('raw', $event);
-                    echo 'DEFERRAL at ' . \Carbon\Carbon::createFromTimestamp($event->raw->ts)->format('l d F Y') . "\n";
+                    echo 'DEFERRAL at ' . $event->at . "\n";
                 })
                 ->hardBounce(function($event)
                 {
                     $this->assertInstanceOf('StdClass', $event);
                     $this->assertObjectHasAttribute('raw', $event);
-                    echo 'HARD BOUNCE at ' . \Carbon\Carbon::createFromTimestamp($event->raw->ts)->format('l d F Y') . "\n";
+                    echo 'HARD BOUNCE at ' . $event->at . "\n";
                 })
                 ->open(function($event)
                 {
                     $this->assertInstanceOf('StdClass', $event);
                     $this->assertObjectHasAttribute('raw', $event);
-                    echo 'OPEN at ' . \Carbon\Carbon::createFromTimestamp($event->raw->ts)->format('l d F Y') . "\n";
+                    echo 'OPEN at ' . $event->at . "\n";
                 })
                 ->reject(function($event)
                 {
                     $this->assertInstanceOf('StdClass', $event);
                     $this->assertObjectHasAttribute('raw', $event);
-                    echo 'REJECT as ' . \Carbon\Carbon::createFromTimestamp($event->raw->ts)->format('l d F Y') . "\n";
+                    echo 'REJECT as ' . $event->at . "\n";
                 })
                 ->softBounce(function($event)
                 {
                     $this->assertInstanceOf('StdClass', $event);
                     $this->assertObjectHasAttribute('raw', $event);
-                    echo 'SOFT BOUNCE at ' . \Carbon\Carbon::createFromTimestamp($event->raw->ts)->format('l d F Y') . "\n";
+                    echo 'SOFT BOUNCE at ' . $event->at . "\n";
                 })
                 ->spam(function($event)
                 {
                     $this->assertInstanceOf('StdClass', $event);
                     $this->assertObjectHasAttribute('raw', $event);
-                    echo 'SPAM at ' . \Carbon\Carbon::createFromTimestamp($event->raw->ts)->format('l d F Y') . "\n";
+                    echo 'SPAM at ' . $event->at . "\n";
                 })
                 ->unsub(function($event)
                 {
                     $this->assertInstanceOf('StdClass', $event);
                     $this->assertObjectHasAttribute('raw', $event);
-                    echo 'UNSUB at ' . \Carbon\Carbon::createFromTimestamp($event->raw->ts)->format('l d F Y') . "\n";
+                    echo 'UNSUB at ' . $event->at . "\n";
                 });
         });
     }
