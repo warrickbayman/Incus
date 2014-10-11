@@ -1,5 +1,6 @@
 # Incus
 
+[![image](http://img.shields.io/travis/warrickbayman/Incus.svg?style=flat)](https://travis-ci.org/warrickbayman/Incus)
 [![image](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://opensource.org/licenses/mit)
 
 
