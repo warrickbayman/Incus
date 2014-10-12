@@ -22,13 +22,16 @@ class Incus implements Contracts\IncusInterface
      *
      * @param Callable   $callback
      *
-     * @return \Incus\Listener
+     * @return array
      */
-    public static function listen(Callable $callback)
+    public static function listen(Callable $callback = null)
     {
         $listener = new Listener();
-        $callback($listener);
 
-        return $listener;
+        if ($callback) {
+            $callback($listener);
+        }
+
+        return $listener->getEvents();
     }
 }

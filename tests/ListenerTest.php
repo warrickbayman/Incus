@@ -40,6 +40,17 @@ class ListenerTest extends TestCase
 
 
     /** @test */
+    public function it_returns_an_array_of_events()
+    {
+        $events = Incus::listen();
+
+        $this->assertTrue(is_array($events));
+        $this->assertInstanceOf('StdClass', $events[0]);
+        $this->assertInstanceOf('Carbon\Carbon', $events[0]->at);
+    }
+
+
+    /** @test */
     public function it_can_fire_an_event_handler()
     {
         Incus::listen(function(Listener $listener)

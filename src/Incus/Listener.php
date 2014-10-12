@@ -65,6 +65,7 @@ class Listener implements Contracts\ListenerInterface
 
     /**
      * Mandrill webhook listener
+     *
      */
     public function __construct()
     {
@@ -92,6 +93,12 @@ class Listener implements Contracts\ListenerInterface
                 $this->eventStore[] = $newEvent;
             }
         }
+    }
+
+
+    public function getEvents()
+    {
+        return $this->eventStore;
     }
 
 

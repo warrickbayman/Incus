@@ -63,6 +63,22 @@ class MyMandrillApp extends Controller
 
 The `listen()` method will respond to any POST request containing a `mandrill_events` property. Pass a closure with a parameter of type `Listener` to the `listen()` method. The `Listener` class provides a number of methods as event handlers.
 
+The Listen method also returns an array of the recieved events so you can process them yourself if don't want to use the Incus event handlers.
+
+```
+class MyMandrillApp extends Controller
+{
+	public function webhooks()
+	{
+		$events = Incus::listen();
+		
+		foreach ($events as $event) {
+			echo "Event occured: " . $event->at->format('d F Y');
+		}		
+	}
+}
+```
+
 ## Event Handlers
 The following methods are provided by the `Listener` class. For each event found in the `mandrill_events` object, the appropriate event handler is fired once.
 
