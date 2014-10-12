@@ -75,23 +75,12 @@ class Listener implements Contracts\ListenerInterface
             $mandrillEvents = json_decode(stripslashes($_POST['mandrill_events']));
 
             foreach ($mandrillEvents as $mandrillEvent) {
-                $newEvent = new \stdClass();
 
-                $newEvent->raw = $mandrillEvent;
-
-                $newEvent->at = Carbon::createFromTimestamp($newEvent->raw->ts);
-
-                $newEvent->indexed = false;
-                if (property_exists($newEvent->raw, 'msg') && is_object($newEvent->raw)) {
-                    $newEvent->indexed = true;
-                }
-
-                /*if (property_exists($newEvent->raw, 'msg')) {
-                    $newEvent->message->eventId = 10;
-                }*/
+                $newEvent = new Event(json_encode($mandrillEvent));
 
                 $this->eventStore[] = $newEvent;
             }
+
         }
     }
 
@@ -112,7 +101,7 @@ class Listener implements Contracts\ListenerInterface
     public function send(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->raw->event === Listener::EVENT_SEND) {
+            if ($event->type === Listener::EVENT_SEND) {
                 $callback($event);
             }
         }
@@ -131,7 +120,7 @@ class Listener implements Contracts\ListenerInterface
     public function deferral(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->raw->event === Listener::EVENT_DEFERRAL) {
+            if ($event->type === Listener::EVENT_DEFERRAL) {
                 $callback($event);
             }
         }
@@ -150,7 +139,7 @@ class Listener implements Contracts\ListenerInterface
     public function open(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->raw->event === Listener::EVENT_OPEN) {
+            if ($event->type === Listener::EVENT_OPEN) {
                 $callback($event);
             }
         }
@@ -169,7 +158,7 @@ class Listener implements Contracts\ListenerInterface
     public function click(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->raw->event === Listener::EVENT_CLICK) {
+            if ($event->type === Listener::EVENT_CLICK) {
                 $callback($event);
             }
         }
@@ -188,7 +177,7 @@ class Listener implements Contracts\ListenerInterface
     public function softBounce(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->raw->event === Listener::EVENT_SOFT_BOUNCE) {
+            if ($event->type === Listener::EVENT_SOFT_BOUNCE) {
                 $callback($event);
             }
         }
@@ -207,7 +196,7 @@ class Listener implements Contracts\ListenerInterface
     public function hardBounce(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->raw->event === Listener::EVENT_HARD_BOUNCE) {
+            if ($event->type === Listener::EVENT_HARD_BOUNCE) {
                 $callback($event);
             }
         }
@@ -226,7 +215,7 @@ class Listener implements Contracts\ListenerInterface
     public function spam(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->raw->event === Listener::EVENT_SPAM) {
+            if ($event->type === Listener::EVENT_SPAM) {
                 $callback($event);
             }
         }
@@ -245,7 +234,7 @@ class Listener implements Contracts\ListenerInterface
     public function unsub(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->raw->event === Listener::EVENT_UNSUB) {
+            if ($event->type === Listener::EVENT_UNSUB) {
                 $callback($event);
             }
         }
@@ -264,7 +253,7 @@ class Listener implements Contracts\ListenerInterface
     public function reject(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->raw->event === Listener::EVENT_REJECT) {
+            if ($event->type === Listener::EVENT_REJECT) {
                 $callback($event);
             }
         }

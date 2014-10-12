@@ -9,7 +9,11 @@ Incus is an easy to use Mandrill webhooks processor. The Webhooks data sent by M
 ## Status
 Incus is under development and although it works, and you can use it right away, it's far from perfect. Mandrill is a service I used constantly, so Incus will grow as I need to add features to it.
 
-If you find bugs, please use the issue tracker here: [Issue Tracker](https://github.com/warrickbayman/incus/issues)
+If you find bugs, please use the issue tracker here: [Issue Tracker](https://github.com/warrickbayman/incus/issues).
+
+Please also be aware that the documentation is fairly incomplete as it is growing with the project. As I complete features, so I will write better documentation.
+
+Sometimes my tests get away from me and I find myself writing tests for code I've written. But at least the tests exist, right. Anyway, it's not quite 100% covered, but I'm getting there.
 
 
 ## Installation
@@ -116,8 +120,19 @@ Whether or not the message has been indexed. The property will always return fal
 	}
 ```
 
+### ->message
+Grab the message from the event. This method returns an instance of the `Message` class.
+
+```
+$listener->softBounce(function($event))
+{
+	$message = $event->message;
+	Log::info('Message was sent to ' . $message->to);
+}
+```
+
 ### ->raw
-The `raw` property will return the Mandrill event object as it was received from the webhook. Nothing return by this property is altered or processed.
+The `raw` property will return the Mandrill event as a json object as it was received from the webhook. Nothing return by this property is altered or processed.
 
 ```
 $listener->click(function($event)
@@ -127,3 +142,19 @@ $listener->click(function($event)
 	}
 });
 ```
+
+### ->type
+Returns the type of event that occured. This is only really useful if you collect an array of events from the `listen()` method. The `Listener` class also provides a set of constants that you can use for comparrison.
+
+```
+$events = Incus::listen();
+foreach ($events as $event) {
+	if ($event->type === Listener::EVENT_CLICK) {
+		Log::info('Click event!');
+	}
+}
+```
+
+
+## Message
+The message class provides a whole bunch of information about the actual message.

@@ -14,30 +14,76 @@ use Incus\Listener;
 class ListenerTest extends TestCase
 {
     /** @test */
-    public function it_returns_a_carbon_instance()
+    public function it_can_return_an_event_instance()
     {
-        Incus::listen(function(Listener $listener)
+        Incus::listen(function($listener)
         {
-            $listener->send(function($event)
+            $listener->click(function($event)
+            {
+                $this->assertInstanceOf('Incus\Event', $event);
+            });
+        });
+    }
+
+    /** @test */
+    public function it_can_return_a_message_instance()
+    {
+        Incus::listen(function($listener)
+        {
+            $listener->click(function($event)
+            {
+                $this->assertInstanceOf('Incus\Message', $event->message);
+            });
+        });
+    }
+
+    /** @test */
+    public function it_returns_a_carbon_instance_from_an_event()
+    {
+        Incus::listen(function($listener)
+        {
+            $listener->click(function($event)
             {
                 $this->assertInstanceOf('Carbon\Carbon', $event->at);
             });
         });
     }
 
-
     /** @test */
-    public function it_can_check_if_a_message_has_been_indexed()
+    public function it_returns_a_carbon_instance_from_a_message()
     {
-        Incus::listen(function(Listener $listener)
+        Incus::listen(function($listener)
         {
-            $listener->send(function($event)
+            $listener->click(function($event)
             {
-                $this->assertTrue($event->indexed);
+                $this->assertInstanceOf('Carbon\Carbon', $event->message->at);
             });
         });
     }
 
+    /** @test */
+    public function it_can_return_an_array_of_tags()
+    {
+        Incus::listen(function($listener)
+        {
+            $listener->send(function($event)
+            {
+                $this->assertTrue(is_array($event->message->tags));
+            });
+        });
+    }
+
+    /** @test */
+    public function it_can_return_an_array_of_metadata()
+    {
+        Incus::listen(function($listener)
+        {
+            $listener->send(function($event)
+            {
+                $this->assertTrue(is_array($event->message->metadata));
+            });
+        });
+    }
 
     /** @test */
     public function it_returns_an_array_of_events()
@@ -45,71 +91,90 @@ class ListenerTest extends TestCase
         $events = Incus::listen();
 
         $this->assertTrue(is_array($events));
-        $this->assertInstanceOf('StdClass', $events[0]);
-        $this->assertInstanceOf('Carbon\Carbon', $events[0]->at);
+        $this->assertInstanceOf('Incus\Event', $events[0]);
     }
-
 
     /** @test */
-    public function it_can_fire_an_event_handler()
+    public function it_can_fire_an_open_event_handler()
     {
-        Incus::listen(function(Listener $listener)
+        Incus::listen(function($listener)
         {
-            $listener
-                ->send(function ($event)
-                {
-                    $this->assertInstanceOf('StdClass', $event);
-                    $this->assertObjectHasAttribute('raw', $event);
-                    echo 'SEND at ' . $event->at . "\n";
-                })
-                ->click(function($event)
-                {
-                    $this->assertInstanceOf('StdClass', $event);
-                    $this->assertObjectHasAttribute('raw', $event);
-                    echo 'CLICK at ' . $event->at . ' from ' . $event->raw->ip . "\n";
-                })
-                ->deferral(function($event)
-                {
-                    $this->assertInstanceOf('StdClass', $event);
-                    $this->assertObjectHasAttribute('raw', $event);
-                    echo 'DEFERRAL at ' . $event->at . "\n";
-                })
-                ->hardBounce(function($event)
-                {
-                    $this->assertInstanceOf('StdClass', $event);
-                    $this->assertObjectHasAttribute('raw', $event);
-                    echo 'HARD BOUNCE at ' . $event->at . "\n";
-                })
-                ->open(function($event)
-                {
-                    $this->assertInstanceOf('StdClass', $event);
-                    $this->assertObjectHasAttribute('raw', $event);
-                    echo 'OPEN at ' . $event->at . "\n";
-                })
-                ->reject(function($event)
-                {
-                    $this->assertInstanceOf('StdClass', $event);
-                    $this->assertObjectHasAttribute('raw', $event);
-                    echo 'REJECT as ' . $event->at . "\n";
-                })
-                ->softBounce(function($event)
-                {
-                    $this->assertInstanceOf('StdClass', $event);
-                    $this->assertObjectHasAttribute('raw', $event);
-                    echo 'SOFT BOUNCE at ' . $event->at . "\n";
-                })
-                ->spam(function($event)
-                {
-                    $this->assertInstanceOf('StdClass', $event);
-                    $this->assertObjectHasAttribute('raw', $event);
-                    echo 'SPAM at ' . $event->at . "\n";
-                })
-                ->unsub(function($event)
-                {
-                    $this->assertInstanceOf('StdClass', $event);
-                    $this->assertObjectHasAttribute('raw', $event);
-                    echo 'UNSUB at ' . $event->at . "\n";
-                });
+            $listener->open(function($event)
+            {
+                $this->assertEquals(Listener::EVENT_OPEN, $event->type);
+            });
         });
     }
-} 
+
+    /** @test */
+    public function it_can_fire_a_deferral_event_handler()
+    {
+        Incus::listen(function($listener)
+        {
+            $listener->deferral(function($event)
+            {
+                $this->assertEquals(Listener::EVENT_DEFERRAL, $event->type);
+            });
+        });
+    }
+
+    /** @test */
+    public function it_can_fire_a_soft_bounce_event_handler()
+    {
+        Incus::listen(function($listener)
+        {
+            $listener->softBounce(function($event)
+            {
+                $this->assertEquals(Listener::EVENT_SOFT_BOUNCE, $event->type);
+            });
+        });
+    }
+
+    /** @test */
+    public function it_can_fire_a_hard_bounce_event_handler()
+    {
+        Incus::listen(function($listener)
+        {
+            $listener->hardBounce(function($event)
+            {
+                $this->assertEquals(Listener::EVENT_HARD_BOUNCE, $event->type);
+            });
+        });
+    }
+
+    /** @test */
+    public function it_can_fire_a_spam_event_handler()
+    {
+        Incus::listen(function($listener)
+        {
+            $listener->spam(function($event)
+            {
+                $this->assertEquals(Listener::EVENT_SPAM, $event->type);
+            });
+        });
+    }
+
+    /** @test */
+    public function it_can_fire_an_unsub_event_handler()
+    {
+        Incus::listen(function($listener)
+        {
+            $listener->unsub(function($event)
+            {
+                $this->assertEquals(Listener::EVENT_UNSUB, $event->type);
+            });
+        });
+    }
+
+    /** @test */
+    public function it_can_fire_a_reject_event_handler()
+    {
+        Incus::listen(function($listener)
+        {
+            $listener->reject(function($event)
+            {
+                $this->assertEquals(Listener::EVENT_REJECT, $event->type);
+            });
+        });
+    }
+}
