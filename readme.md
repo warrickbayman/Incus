@@ -19,7 +19,7 @@ Sometimes my tests get away from me and I find myself writing tests for code I'v
 ## Installation
 Incus can be installed via Composer. Add the following to the `require` section of your `composer.json` file:
 
-```
+```json
 {
 	require: {
 		"warrickbayman\Incus": "dev-master"
@@ -31,9 +31,9 @@ Incus can be installed via Composer. Add the following to the `require` section 
 And run `composer update`.
 
 ## The Basics
-Create a working POST route that accepts POSTs and write a route controller to look something like:
+Create a working POST route and write a controller to look something like:
 
-```
+```php
 use Incus\Incus;
 use Incus\Listener;
 
@@ -69,7 +69,7 @@ The `listen()` method will respond to any POST request containing a `mandrill_ev
 
 The Listen method also returns an array of the recieved events so you can process them yourself if don't want to use the Incus event handlers.
 
-```
+```php
 class MyMandrillApp extends Controller
 {
 	public function webhooks()
@@ -86,7 +86,7 @@ class MyMandrillApp extends Controller
 ## Event Handlers
 The following methods are provided by the `Listener` class. For each event found in the `mandrill_events` object, the appropriate event handler is fired once.
 
-```
+```php
 $listener
 	->send()
 	->deferral()
@@ -104,7 +104,7 @@ Event handler receives an object of type `StdClass` which, will eventually provi
 ### ->at
 The `at` property is the time when the event was fired as a `Carbon` instance, so you have all the Carbon functionality on it.
 
-```
+```php
 $listener->send(function($event)
 {
 	echo $event->at->format('d F Y');
@@ -114,7 +114,7 @@ $listener->send(function($event)
 ### ->indexed
 Whether or not the message has been indexed. The property will always return false if the `->raw->msg` property is empty, or doesn't exist. Mandrill messages may not be indexed if an event occures soon after the message is delivered.
 
-```
+```php
 	if ($event->indexed) {
 		echo 'Message has been indexed'
 	}
@@ -123,7 +123,7 @@ Whether or not the message has been indexed. The property will always return fal
 ### ->message
 Grab the message from the event. This method returns an instance of the `Message` class.
 
-```
+```php
 $listener->softBounce(function($event))
 {
 	$message = $event->message;
@@ -134,7 +134,7 @@ $listener->softBounce(function($event))
 ### ->raw
 The `raw` property will return the Mandrill event as a json object as it was received from the webhook. Nothing return by this property is altered or processed.
 
-```
+```php
 $listener->click(function($event)
 {
 	if ($event->raw->user_agent_parsed->mobile) {
@@ -146,7 +146,7 @@ $listener->click(function($event)
 ### ->type
 Returns the type of event that occured. This is only really useful if you collect an array of events from the `listen()` method. The `Listener` class also provides a set of constants that you can use for comparrison.
 
-```
+```php
 $events = Incus::listen();
 foreach ($events as $event) {
 	if ($event->type === Listener::EVENT_CLICK) {
