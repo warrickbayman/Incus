@@ -21,8 +21,8 @@ Incus can be installed via Composer. Add the following to the `require` section 
 
 ```json
 {
-	require: {
-		"warrickbayman\Incus": "dev-master"
+	"require": {
+		"warrickbayman/Incus": "dev-master"
 	}
 }
 
