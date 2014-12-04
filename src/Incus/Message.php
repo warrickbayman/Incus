@@ -98,7 +98,7 @@ class Message implements MessageInterface
     }
 
     /**
-     * Array of metadata
+     * Metadata
      *
      * @return array
      */
