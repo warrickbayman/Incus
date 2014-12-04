@@ -13,7 +13,6 @@ namespace Incus;
 
 use Carbon\Carbon;
 use Incus\Contracts\EventInterface;
-use SebastianBergmann\Exporter\Exception;
 
 /**
  * Class Event
@@ -23,9 +22,12 @@ use SebastianBergmann\Exporter\Exception;
 class Event implements EventInterface
 {
     /**
-     * @var
+     * @var string
      */
     private $raw;
+    /**
+     * @var mixed
+     */
     private $decoded;
 
     /**
@@ -34,7 +36,7 @@ class Event implements EventInterface
     public function __construct($mandrillEventJson)
     {
         $this->raw = $mandrillEventJson;
-        $this->decoded = json_decode($this->raw);
+        $this->decoded = json_decode($this->raw());
     }
 
     /**
@@ -47,16 +49,34 @@ class Event implements EventInterface
         return $this->raw;
     }
 
+
+    /**
+     * Time of the event
+     *
+     * @return Carbon
+     */
     public function at()
     {
         return Carbon::createFromTimestamp($this->decoded->ts);
     }
 
+
+    /**
+     * The event type
+     *
+     * @return mixed
+     */
     public function type()
     {
         return $this->decoded->event;
     }
 
+
+    /**
+     * Has the event been indexed?
+     *
+     * @return bool
+     */
     public function indexed()
     {
         if (property_exists($this->decoded, 'msg') and isset($this->decoded->msg)) {
@@ -65,20 +85,17 @@ class Event implements EventInterface
         return false;
     }
 
+
+    /**
+     * Message
+     *
+     * @return Message|null
+     */
     public function message()
     {
         if ($this->indexed()) {
             return new Message($this);
         }
         return null;
-    }
-
-    public function __get($method)
-    {
-        if (method_exists($this, $method)) {
-            return $this->{$method}();
-        }
-
-        throw new Exception('No such property');
     }
 }

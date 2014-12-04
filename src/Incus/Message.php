@@ -30,7 +30,7 @@ class Message implements MessageInterface
     public function __construct(Event $event)
     {
         $this->event = $event;
-        $this->message = json_decode($event->raw)->msg;
+        $this->message = json_decode($event->raw())->msg;
     }
 
     /**
@@ -104,11 +104,7 @@ class Message implements MessageInterface
      */
     public function metadata()
     {
-        if (property_exists($this->message, 'metadata') and isset($this->message->metadata)) {
-
-            return (Array)$this->message->metadata;
-        }
-        return null;
+        return new Metadata($this->message);
     }
 
     /**
@@ -168,14 +164,5 @@ class Message implements MessageInterface
             return $this->message->template;
         }
         return null;
-    }
-
-    public function __get($method)
-    {
-        if (method_exists($this, $method)) {
-            return $this->{$method}();
-        }
-
-        throw new Exception('No such property');
     }
 }
