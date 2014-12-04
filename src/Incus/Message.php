@@ -40,7 +40,7 @@ class Message implements MessageInterface
      */
     public function id()
     {
-        return $this->message->id;
+        return $this->message->_id;
     }
 
     /**
