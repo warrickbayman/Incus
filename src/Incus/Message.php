@@ -124,7 +124,10 @@ class Message implements MessageInterface
      */
     public function subAccount()
     {
-        return $this->message->subaccount;
+        if (property_exists($this->message, 'subaccount') and isset($this->message->subaccount)) {
+            return $this->message->subaccount;
+        }
+        return null;
     }
 
     /**

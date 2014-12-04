@@ -39,83 +39,41 @@ class ListenerTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_a_carbon_instance_from_an_event()
+    public function it_provides_some_basic_event_information()
     {
         Incus::listen(function(Listener $listener)
         {
             $listener->click(function(Event $event)
             {
                 $this->assertInstanceOf('Carbon\Carbon', $event->at());
+                $this->assertTrue($event->indexed());
+                $this->assertEquals('click', $event->type());
             });
         });
     }
 
     /** @test */
-    public function it_returns_a_carbon_instance_from_a_message()
+    public function it_provides_some_basic_message_information()
     {
         Incus::listen(function(Listener $listener)
         {
-            $listener->click(function(Event $event)
-            {
-                $this->assertInstanceOf('Carbon\Carbon', $event->message()->at());
+            $listener->click(function(Event $event) {
+                if ($event->indexed()) {
+                    $message = $event->message();
+                    $this->assertEquals('exampleaaaaaaaaaaaaaaaaaaaaaaaaa5', $message->id());
+                    $this->assertInstanceOf('Carbon\Carbon', $message->at());
+                    $this->assertEquals('example.webhook@mandrillapp.com', $message->to());
+                    $this->assertEquals('example.sender@mandrillapp.com', $message->from());
+                    $this->assertEquals('This an example webhook message', $message->subject());
+                    $this->assertEquals('sent', $message->state());
+                    $this->assertNull($message->subAccount());
+                    $this->assertNull($message->template());
+                    $this->assertTrue(is_array($message->tags()));
+                }
             });
         });
     }
 
-    /** @test */
-    public function it_returns_a_message_id()
-    {
-        Incus::listen(function(Listener $listener)
-        {
-            $listener->click(function(Event $event)
-            {
-                $this->assertEquals('exampleaaaaaaaaaaaaaaaaaaaaaaaaa5', $event->message()->id());
-            });
-        });
-    }
-
-    /** @test */
-    public function it_returns_email_addresses()
-    {
-        Incus::listen(function(Listener $listener)
-        {
-            $listener->click(function(Event $event)
-            {
-                $this->assertEquals('example.webhook@mandrillapp.com', $event->message()->to());
-                $this->assertEquals('example.sender@mandrillapp.com', $event->message()->from());
-            });
-        });
-    }
-
-    /** @test */
-    public function it_can_return_an_array_of_tags()
-    {
-        Incus::listen(function(Listener $listener)
-        {
-            $listener->send(function(Event $event)
-            {
-                $this->assertTrue(is_array($event->message()->tags()));
-            });
-        });
-    }
-
-    /** @test */
-    public function it_returns_a_tag_value()
-    {
-
-    }
-
-    /** @test */
-    /*public function it_can_return_an_array_of_metadata()
-    {
-        Incus::listen(function(Listener $listener)
-        {
-            $listener->send(function(Event $event)
-            {
-                $this->assertTrue(is_array($event->message()->metadata()));
-            });
-        });
-    }*/
 
     /** @test */
     public function it_returns_metadata_as_an_object()
@@ -152,7 +110,7 @@ class ListenerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_fire_an_open_event_handler()
+    public function it_can_fire_each_event_handler()
     {
         Incus::listen(function(Listener $listener)
         {
@@ -160,77 +118,49 @@ class ListenerTest extends TestCase
             {
                 $this->assertEquals(Listener::EVENT_OPEN, $event->type());
             });
-        });
-    }
 
-    /** @test */
-    public function it_can_fire_a_deferral_event_handler()
-    {
-        Incus::listen(function(Listener $listener)
-        {
             $listener->deferral(function(Event $event)
             {
                 $this->assertEquals(Listener::EVENT_DEFERRAL, $event->type());
             });
-        });
-    }
 
-    /** @test */
-    public function it_can_fire_a_soft_bounce_event_handler()
-    {
-        Incus::listen(function(Listener $listener)
-        {
             $listener->softBounce(function(Event $event)
             {
                 $this->assertEquals(Listener::EVENT_SOFT_BOUNCE, $event->type());
             });
-        });
-    }
 
-    /** @test */
-    public function it_can_fire_a_hard_bounce_event_handler()
-    {
-        Incus::listen(function(Listener $listener)
-        {
             $listener->hardBounce(function(Event $event)
             {
                 $this->assertEquals(Listener::EVENT_HARD_BOUNCE, $event->type());
             });
-        });
-    }
 
-    /** @test */
-    public function it_can_fire_a_spam_event_handler()
-    {
-        Incus::listen(function(Listener $listener)
-        {
             $listener->spam(function(Event $event)
             {
                 $this->assertEquals(Listener::EVENT_SPAM, $event->type());
             });
-        });
-    }
 
-    /** @test */
-    public function it_can_fire_an_unsub_event_handler()
-    {
-        Incus::listen(function(Listener $listener)
-        {
             $listener->unsub(function(Event $event)
             {
                 $this->assertEquals(Listener::EVENT_UNSUB, $event->type());
             });
-        });
-    }
 
-    /** @test */
-    public function it_can_fire_a_reject_event_handler()
-    {
-        Incus::listen(function(Listener $listener)
-        {
             $listener->reject(function(Event $event)
             {
                 $this->assertEquals(Listener::EVENT_REJECT, $event->type());
+            });
+        });
+    }
+
+
+    /** @test */
+    public function it_can_provide_information_about_a_bounce()
+    {
+        Incus::listen(function (Listener $listener)
+        {
+            $listener->softBounce(function(Event $event)
+            {
+                $this->assertEquals('mailbox_full', $event->message()->bounceDescription());
+                $this->assertEquals('smtp;552 5.2.2 Over Quota', $event->message()->diag());
             });
         });
     }
