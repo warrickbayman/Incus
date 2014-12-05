@@ -47,7 +47,7 @@ class ListenerTest extends TestCase
             {
                 $this->assertInstanceOf('Carbon\Carbon', $event->at());
                 $this->assertTrue($event->indexed());
-                $this->assertEquals('click', $event->type());
+                $this->assertEquals('click', $event->name());
             });
         });
     }
@@ -107,6 +107,8 @@ class ListenerTest extends TestCase
 
         $this->assertTrue(is_array($events));
         $this->assertInstanceOf('Incus\Event', $events[0]);
+
+
     }
 
     /** @test */
@@ -116,37 +118,37 @@ class ListenerTest extends TestCase
         {
             $listener->open(function(Event $event)
             {
-                $this->assertEquals(Listener::EVENT_OPEN, $event->type());
+                $this->assertTrue($event->open());
             });
 
             $listener->deferral(function(Event $event)
             {
-                $this->assertEquals(Listener::EVENT_DEFERRAL, $event->type());
+                $this->assertTrue($event->deferral());
             });
 
             $listener->softBounce(function(Event $event)
             {
-                $this->assertEquals(Listener::EVENT_SOFT_BOUNCE, $event->type());
+                $this->assertTrue($event->softBounce());
             });
 
             $listener->hardBounce(function(Event $event)
             {
-                $this->assertEquals(Listener::EVENT_HARD_BOUNCE, $event->type());
+                $this->assertTrue($event->hardBounce());
             });
 
             $listener->spam(function(Event $event)
             {
-                $this->assertEquals(Listener::EVENT_SPAM, $event->type());
+                $this->assertTrue($event->spam());
             });
 
             $listener->unsub(function(Event $event)
             {
-                $this->assertEquals(Listener::EVENT_UNSUB, $event->type());
+                $this->assertTrue($event->unsub());
             });
 
             $listener->reject(function(Event $event)
             {
-                $this->assertEquals(Listener::EVENT_REJECT, $event->type());
+                $this->assertTrue($event->reject());
             });
         });
     }

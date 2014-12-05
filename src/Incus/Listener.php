@@ -101,7 +101,7 @@ class Listener implements Contracts\ListenerInterface
     public function send(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->type() === Listener::EVENT_SEND) {
+            if ($event->send()) {
                 $callback($event);
             }
         }
@@ -120,7 +120,7 @@ class Listener implements Contracts\ListenerInterface
     public function deferral(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->type() === Listener::EVENT_DEFERRAL) {
+            if ($event->deferral()) {
                 $callback($event);
             }
         }
@@ -139,7 +139,7 @@ class Listener implements Contracts\ListenerInterface
     public function open(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->type() === Listener::EVENT_OPEN) {
+            if ($event->open()) {
                 $callback($event);
             }
         }
@@ -158,7 +158,7 @@ class Listener implements Contracts\ListenerInterface
     public function click(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->type() === Listener::EVENT_CLICK) {
+            if ($event->click()) {
                 $callback($event);
             }
         }
@@ -177,7 +177,7 @@ class Listener implements Contracts\ListenerInterface
     public function softBounce(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->type() === Listener::EVENT_SOFT_BOUNCE) {
+            if ($event->softBounce()) {
                 $callback($event);
             }
         }
@@ -196,7 +196,7 @@ class Listener implements Contracts\ListenerInterface
     public function hardBounce(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->type() === Listener::EVENT_HARD_BOUNCE) {
+            if ($event->hardBounce()) {
                 $callback($event);
             }
         }
@@ -215,7 +215,7 @@ class Listener implements Contracts\ListenerInterface
     public function spam(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->type() === Listener::EVENT_SPAM) {
+            if ($event->spam()) {
                 $callback($event);
             }
         }
@@ -234,7 +234,7 @@ class Listener implements Contracts\ListenerInterface
     public function unsub(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->type() === Listener::EVENT_UNSUB) {
+            if ($event->unsub()) {
                 $callback($event);
             }
         }
@@ -253,7 +253,7 @@ class Listener implements Contracts\ListenerInterface
     public function reject(Callable $callback)
     {
         foreach ($this->eventStore as $event) {
-            if ($event->type() === Listener::EVENT_REJECT) {
+            if ($event->reject()) {
                 $callback($event);
             }
         }

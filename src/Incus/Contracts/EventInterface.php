@@ -11,17 +11,130 @@
 namespace Incus\Contracts;
 
 
+use Carbon\Carbon;
+use Incus\Message;
+
+/**
+ * Interface EventInterface
+ *
+ * @package Incus\Contracts
+ */
 interface EventInterface
 {
+    /**
+     * @param $mandrillEventJson
+     */
     public function __construct($mandrillEventJson);
 
+
+    /**
+     * The raw webhook
+     *
+     * @return string
+     */
     public function raw();
 
+
+    /**
+     * Event at
+     *
+     * @return Carbon
+     */
     public function at();
 
-    public function type();
 
+    /**
+     * The name of the event
+     *
+     * @return string
+     */
+    public function name();
+
+
+    /**
+     * Is this a send event?
+     *
+     * @return bool
+     */
+    public function send();
+
+
+    /**
+     * Is this a click event
+     *
+     * @return bool
+     */
+    public function click();
+
+
+    /**
+     * Is this a deferral event
+     *
+     * @return bool
+     */
+    public function deferral();
+
+
+    /**
+     * is this an open event
+     *
+     * @return bool
+     */
+    public function open();
+
+
+    /**
+     * Is this a hard bounce event
+     *
+     * @return bool
+     */
+    public function hardBounce();
+
+
+    /**
+     * Is this a soft bounce event
+     *
+     * @return bool
+     */
+    public function softBounce();
+
+
+    /**
+     * is this a reject event
+     *
+     * @return bool
+     */
+    public function reject();
+
+
+    /**
+     * is this a spam event
+     *
+     * @return bool
+     */
+    public function spam();
+
+
+    /**
+     * is this an unsubscribe event
+     *
+     * @return bool
+     */
+    public function unsub();
+
+
+    /**
+     * Is the message indexed?
+     *
+     * @return bool
+     */
     public function indexed();
 
+
+    /**
+     * Message
+     *
+     * @return Message
+     */
     public function message();
 } 
