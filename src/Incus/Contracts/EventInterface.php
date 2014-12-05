@@ -137,4 +137,28 @@ interface EventInterface
      * @return Message
      */
     public function message();
-} 
+
+
+    /**
+     * The URL clicked
+     *
+     * @return string
+     */
+    public function url();
+
+
+    /**
+     * The origin IP address for click and open events
+     *
+     * @return string
+     */
+    public function origin();
+
+
+    /**
+     * Location information
+     *
+     * @return Location
+     */
+    public function location();
+}

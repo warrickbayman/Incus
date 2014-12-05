@@ -22,4 +22,4 @@ interface IncusInterface
      * @return Listener
      */
     public static function listen(Callable $callback);
-} 
+}

@@ -197,4 +197,44 @@ class Event implements EventInterface
         }
         return null;
     }
+
+
+    /**
+     * The URL clicked
+     *
+     * @return string
+     */
+    public function url()
+    {
+        if (property_exists('url', $this->decoded) and isset($this->decoded->url)) {
+            return $this->decoded->url;
+        }
+
+        return null;
+    }
+
+
+    /**
+     * The origin IP address for click and open events
+     *
+     * @return string
+     */
+    public function origin()
+    {
+        if (property_exists('ip', $this->decided) and isset($this->decoded->ip)) {
+            return $this->decoded->ip;
+        }
+        return null;
+    }
+
+
+    /**
+     * Location information
+     *
+     * @return Location
+     */
+    public function location()
+    {
+        return new Location($this);
+    }
 }

@@ -166,4 +166,18 @@ class ListenerTest extends TestCase
             });
         });
     }
+
+
+    /** @test */
+    public function it_returns_a_location_object()
+    {
+        Incus::listen(function (Listener $listener)
+        {
+            $listener->click(function(Event $event)
+            {
+                $this->assertInstanceOf('Incus\Location', $event->location());
+                $this->assertEquals('Oklahoma City', $event->location()->city());
+            });
+        });
+    }
 }
