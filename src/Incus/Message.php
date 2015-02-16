@@ -22,6 +22,16 @@ class Message implements MessageInterface
     private $event;
     private $message;
 
+
+    private function getProperty($property, $default = null)
+    {
+        if (property_exists($this->message, $property) and isset($this->message->{$property})) {
+            return $this->message->{$property};
+        }
+        return $default;
+    }
+
+
     /**
      * Message
      *
@@ -40,7 +50,7 @@ class Message implements MessageInterface
      */
     public function id()
     {
-        return $this->message->_id;
+        return $this->getProperty('_id');
     }
 
     /**
@@ -50,7 +60,10 @@ class Message implements MessageInterface
      */
     public function at()
     {
-        return Carbon::createFromTimestamp($this->message->ts);
+        if ($this->getProperty('ts')) {
+            return Carbon::createFromTimestamp($this->getProperty('ts'));
+        }
+        return null;
     }
 
     /**
@@ -60,7 +73,7 @@ class Message implements MessageInterface
      */
     public function to()
     {
-        return $this->message->email;
+        return $this->getProperty('email');
     }
 
     /**
@@ -70,7 +83,7 @@ class Message implements MessageInterface
      */
     public function from()
     {
-        return $this->message->sender;
+        return $this->getProperty('sender');
     }
 
     /**
@@ -80,7 +93,7 @@ class Message implements MessageInterface
      */
     public function subject()
     {
-        return $this->message->subject;
+        return $this->getProperty('subject');
     }
 
     /**
@@ -90,9 +103,9 @@ class Message implements MessageInterface
      */
     public function tags()
     {
-        if (property_exists($this->message, 'tags') and isset($this->message->tags)) {
-
-            return (Array)$this->message->tags;
+        $tags = $this->getProperty('tags');
+        if ($tags) {
+            return (Array)$tags;
         }
         return null;
     }
@@ -114,7 +127,7 @@ class Message implements MessageInterface
      */
     public function state()
     {
-        return $this->message->state;
+        return $this->getProperty('state');
     }
 
     /**
@@ -124,10 +137,7 @@ class Message implements MessageInterface
      */
     public function subAccount()
     {
-        if (property_exists($this->message, 'subaccount') and isset($this->message->subaccount)) {
-            return $this->message->subaccount;
-        }
-        return null;
+        return $this->getProperty('subaccount');
     }
 
     /**
@@ -137,10 +147,7 @@ class Message implements MessageInterface
      */
     public function diag()
     {
-        if (property_exists($this->message, 'diag') and isset($this->message->diag)) {
-            return $this->message->diag;
-        }
-        return null;
+        return $this->getProperty('diag');
     }
 
     /**
@@ -150,10 +157,7 @@ class Message implements MessageInterface
      */
     public function bounceDescription()
     {
-        if (property_exists($this->message, 'bounce_description') and isset($this->message->bounce_description)) {
-            return $this->message->bounce_description;
-        }
-        return null;
+        return $this->getProperty('bounce_description');
     }
 
     /**
@@ -163,9 +167,6 @@ class Message implements MessageInterface
      */
     public function template()
     {
-        if (property_exists($this->message, 'template') and isset($this->message->template)) {
-            return $this->message->template;
-        }
-        return null;
+        return $this->getProperty('template');
     }
 }
