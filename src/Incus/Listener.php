@@ -74,7 +74,7 @@ class Listener implements Contracts\ListenerInterface
 
             $mandrillEvents = json_decode(stripslashes($_POST['mandrill_events']));
 
-            if (!is_array($mandrillEvents)) {
+            if (is_array($mandrillEvents)) {
                 foreach ($mandrillEvents as $mandrillEvent) {
 
                     $newEvent = new Event(json_encode($mandrillEvent));
