@@ -15,13 +15,18 @@ interface EventInterface
 {
     public function __construct($mandrillEventJson);
 
+
     public function raw();
+
 
     public function at();
 
+
     public function type();
+
 
     public function indexed();
 
+
     public function message();
-} 
+}

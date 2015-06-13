@@ -10,8 +10,6 @@
 
 namespace Incus;
 
-use Carbon\Carbon;
-
 /**
  * Class Listener
  *

@@ -16,16 +16,12 @@ use Incus\Contracts\MessageInterface;
 
 class Message implements MessageInterface
 {
-    /**
-     * @var Event
-     */
-    private $event;
     private $message;
 
 
     private function getProperty($property, $default = null)
     {
-        if (property_exists($this->message, $property) and isset($this->message->{$property})) {
+        if (property_exists($this->message, $property) && isset($this->message->{$property})) {
             return $this->message->{$property};
         }
         return $default;

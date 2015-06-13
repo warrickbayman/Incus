@@ -79,7 +79,7 @@ class Event implements EventInterface
      */
     public function indexed()
     {
-        if (property_exists($this->decoded, 'msg') and isset($this->decoded->msg)) {
+        if (property_exists($this->decoded, 'msg') && isset($this->decoded->msg)) {
             return true;
         }
         return false;

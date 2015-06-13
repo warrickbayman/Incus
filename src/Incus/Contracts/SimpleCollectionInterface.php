@@ -44,4 +44,4 @@ interface SimpleCollectionInterface
      * @return string
      */
     public function get($key);
-} 
+}

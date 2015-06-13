@@ -111,4 +111,4 @@ interface MessageInterface
      * @return string|null
      */
     public function template();
-} 
+}

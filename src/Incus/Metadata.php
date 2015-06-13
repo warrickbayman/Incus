@@ -24,7 +24,7 @@ class Metadata implements SimpleCollectionInterface
     function __construct($message)
     {
         $this->metadata = [];
-        if (property_exists($message, 'metadata') and isset($message->metadata)) {
+        if (property_exists($message, 'metadata') && isset($message->metadata)) {
             $this->metadata = (Array)$message->metadata;
         }
     }

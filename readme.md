@@ -1,8 +1,10 @@
 # Incus
 
 [![image](http://img.shields.io/travis/warrickbayman/Incus.svg?style=flat)](https://travis-ci.org/warrickbayman/Incus)
+[![Stable](https://img.shields.io/github/release/warrickbayman/incus.svg?label=stable)](https://github.com/warrickbayman/Incus/releases)
 [![image](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://opensource.org/licenses/mit)
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/02b6ee54-c786-4de4-b387-38defe63f142/small.png)](https://insight.sensiolabs.com/projects/02b6ee54-c786-4de4-b387-38defe63f142)
 
 Incus is an easy to use Mandrill webhooks processor. The Webhooks data sent by Mandrill can sometimes be a bit confusing, so Incus simplifies the matter.
 
