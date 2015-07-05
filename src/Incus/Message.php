@@ -109,7 +109,7 @@ class Message implements MessageInterface
     /**
      * Metadata
      *
-     * @return array
+     * @return Metadata
      */
     public function metadata()
     {
