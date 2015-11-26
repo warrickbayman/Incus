@@ -1,8 +1,9 @@
 # Incus
 
-[![image](http://img.shields.io/travis/warrickbayman/Incus.svg?style=flat)](https://travis-ci.org/warrickbayman/Incus)
-[![Stable](https://img.shields.io/github/release/warrickbayman/incus.svg?label=stable)](https://github.com/warrickbayman/Incus/releases)
-[![image](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://opensource.org/licenses/mit)
+[![Build Status](https://travis-ci.org/warrickbayman/Incus.svg)](https://travis-ci.org/warrickbayman/Incus)
+[![Stable](https://poser.pugx.org/warrickbayman/incus/v/stable.svg)](https://packagist.org/packages/warrickbayman/incus)
+[![Latest Unstable Version](https://poser.pugx.org/warrickbayman/incus/v/unstable)](https://packagist.org/packages/warrickbayman/incus)
+[![License](https://poser.pugx.org/warrickbayman/incus/license)](https://packagist.org/packages/warrickbayman/incus)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/02b6ee54-c786-4de4-b387-38defe63f142/small.png)](https://insight.sensiolabs.com/projects/02b6ee54-c786-4de4-b387-38defe63f142)
 
