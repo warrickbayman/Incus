@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/warrickbayman/Incus.svg)](https://travis-ci.org/warrickbayman/Incus)
 [![Stable](https://poser.pugx.org/warrickbayman/incus/v/stable.svg)](https://packagist.org/packages/warrickbayman/incus)
 [![Latest Unstable Version](https://poser.pugx.org/warrickbayman/incus/v/unstable)](https://packagist.org/packages/warrickbayman/incus)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/warrickbayman/Incus/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/warrickbayman/Incus/?branch=master)
 [![License](https://poser.pugx.org/warrickbayman/incus/license)](https://packagist.org/packages/warrickbayman/incus)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/02b6ee54-c786-4de4-b387-38defe63f142/small.png)](https://insight.sensiolabs.com/projects/02b6ee54-c786-4de4-b387-38defe63f142)
