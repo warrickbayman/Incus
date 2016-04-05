@@ -8,7 +8,14 @@
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/02b6ee54-c786-4de4-b387-38defe63f142/small.png)](https://insight.sensiolabs.com/projects/02b6ee54-c786-4de4-b387-38defe63f142)
 
-Incus is an easy to use Mandrill webhooks processor. The Webhooks data sent by Mandrill can sometimes be a bit confusing, so Incus simplifies the matter.
+Incus is an easy to use Mandrill webhooks processor. The Webhooks data sent by Mandrill can sometimes be a bit confusing, so Incus attempts to simplifies the matter.
+
+## MailChump?
+So MailChimp pulled a fast one on us. I see what you did there. Sneaky. Anyway, since the continued development of this package would require a paid MailChimp account that I simply don't need, this is likely the end. 
+
+It really sucks. Mandrill is a great service, but MailChimp kinda ruined it for a lot of us.
+
+So this is it. I'll leave it here for anyone who can still use it, but there won't be any bug fixes from my side.
 
 ## Status
 Incus is under development and although it works, and you can use it right away, it's far from perfect. Mandrill is a service I used constantly, so Incus will grow as I need to add features to it.
